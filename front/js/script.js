@@ -8,7 +8,7 @@ fetch("http://localhost:3000/api/products")
         // console.log(value);
         value.forEach(element => {
             // console.log(element);
-            document.getElementById("items").innerHTML += `<a href="./product.html?id="${element._id}">
+            document.getElementById("items").innerHTML += `<a href="./product.html?id=${element._id}">
         <article>
         <img src="${element.imageUrl}" alt="${element.altTxt}">
         <h3 class="productName">${element.name}</h3>
