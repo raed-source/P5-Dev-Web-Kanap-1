@@ -29,5 +29,8 @@ document.getElementById("addToCart").addEventListener("click", function (e) {
             price: product.price
         };
         console.log(productToCart);
+    } else {
+        alert('la couleur ou la quantité ne sont pas choisis');
+        return;
     }
 });
