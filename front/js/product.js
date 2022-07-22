@@ -18,3 +18,16 @@ fetch("http://localhost:3000/api/products/" + idproduct)
         //     // console.log('erreur est survenue');
         // }
     });
+document.getElementById("addToCart").addEventListener("click", function (e) {
+    if (document.getElementById("colors").value != "" && document.getElementById("quntity").calue > 0) {
+        var productToCart = {
+            id: idproduct,
+            name: product.name,
+            description: product.description,
+            colors: product.colors,
+            quantity: product.quantity,
+            price: product.price
+        };
+        console.log(productToCart);
+    }
+});
