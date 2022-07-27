@@ -39,10 +39,25 @@ btn.addEventListener("click", function (e) {
             quantity: document.getElementById("quantity").value,
             price: product.price
         };
-        cart.push(productToCart);
+        addProduct(productToCart);
         console.log(cart);
     } else {
         alert('la couleur ou la quantité ne sont pas choisis');
         return;
     }
 });
+//*************methode pour ajouter un produit dans panier***** */
+function addProduct(product) {
+    let oldProduct = cart.find(p => p.id == product.id);
+    let oldProductColor = cart.find(p => p.colors == product.colors)
+    if (oldProduct != undefined) {
+        if (oldProduct.colors == product.colors) {
+            oldProduct.quantity++;
+        }
+    } else {
+        // product.quantity = productToCart.quantity;
+        cart.push(product);
+    }
+
+
+}

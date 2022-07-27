@@ -12,9 +12,3 @@ function getCart() {
     return [];
 }
 
-//*************methode pour ajouter un produit dans panier***** */
-function addProduct(product) {
-    let cart = getCart();
-    cart.push(product);
-    saveCart(cart);
-}
