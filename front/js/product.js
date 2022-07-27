@@ -8,7 +8,7 @@ fetch("http://localhost:3000/api/products/" + idproduct)
         }
     })
     .then(function (value) {
-        console.log(value);
+        // console.log(value);
         product = value;
         document.getElementsByClassName("item__img")[0].innerHTML = `<img src=${value.imageUrl}>`;
         document.getElementById("price").textContent = value.price;
@@ -26,7 +26,8 @@ fetch("http://localhost:3000/api/products/" + idproduct)
     });
 
 const btn = document.getElementById("addToCart");
-
+cart = JSON.parse(localStorage.getItem("cart"));
+console.log(cart);
 btn.addEventListener("click", function (e) {
     if (document.getElementById("colors").value != "" && document.getElementById("quantity").value > 0) {
 
@@ -38,32 +39,10 @@ btn.addEventListener("click", function (e) {
             quantity: document.getElementById("quantity").value,
             price: product.price
         };
-        saveCart(cart);
-        addProduct(productToCart);
-
-
-        console.log(getCart());
+        cart.push(productToCart);
+        console.log(cart);
     } else {
         alert('la couleur ou la quantité ne sont pas choisis');
         return;
     }
 });
-// ********cree un panier pour stocker les produits*******
-function saveCart(cart) {
-    localStorage.setItem("cart", JSON.stringify(cart));
-}
-
-//********method pour recuperer le panier avec ces produits s'il y en a ********
-function getCart() {
-    let cart = localStorage.getItem("cart");
-    if (cart != null)
-        return JSON.parse(cart);
-    return [];
-}
-
-//*************methode pour ajouter un produit dans panier***** */
-function addProduct(product) {
-    let cart = getCart();
-    cart.push(product);
-    saveCart(cart);
-}
