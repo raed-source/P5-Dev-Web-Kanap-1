@@ -1,3 +1,4 @@
+//*******fetch pour recuperer les produits **************/
 var idproduct = window.location.search.replace('?id=', '');
 var product;
 var cart = [];
@@ -17,30 +18,27 @@ fetch("http://localhost:3000/api/products/" + idproduct)
 
         value.colors.forEach(element => {
             document.getElementById("colors").innerHTML += `<option value="${element}">${element}</option>`;
-
         });
-
     })
     .catch(function (err) {
         console.log('erreur est survenue', err);
     });
 
+// *******Ajouter les produit au panier*************
 const btn = document.getElementById("addToCart");
-cart = JSON.parse(localStorage.getItem("cart"));
-console.log(cart);
 btn.addEventListener("click", function (e) {
     if (document.getElementById("colors").value != "" && document.getElementById("quantity").value > 0) {
 
         var productToCart = {
             id: idproduct,
             name: product.name,
+            imageUrl: product.imageUrl,
             description: product.description,
             colors: document.getElementById("colors").value,
             quantity: document.getElementById("quantity").value,
             price: product.price
         };
         addProduct(productToCart);
-        console.log(cart);
     } else {
         alert('la couleur ou la quantité ne sont pas choisis');
         return;
@@ -48,16 +46,26 @@ btn.addEventListener("click", function (e) {
 });
 //*************methode pour ajouter un produit dans panier***** */
 function addProduct(product) {
-    let oldProduct = cart.find(p => p.id == product.id);
-    let oldProductColor = cart.find(p => p.colors == product.colors)
-    if (oldProduct != undefined) {
-        if (oldProduct.colors == product.colors) {
-            oldProduct.quantity++;
+    let i = -1;
+    if (cart.length > 0) {
+        cart.forEach((element, index) => {
+            if (product.id == element.id && product.colors == element.colors) {
+                i = index;
+            }
+        });
+        if (i != -1) {
+            cart[i].quantity = parseInt(cart[i].quantity) + parseInt(product.quantity);
+        } else {
+            cart.push(product);
         }
     } else {
-        // product.quantity = productToCart.quantity;
         cart.push(product);
     }
+    saveCart(cart);
 
+}
 
+//  ********foction sert à sauvguarder le contenu du panier**********************
+function saveCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart));
 }
