@@ -9,6 +9,9 @@ if (cart == null) {
   alert('coucou');
   displayCart();
 }
+// *************l'objet product dt liste de produits dans le panier si mise à jour *******************
+let product = {};
+let chetOutCary = [];
 // *******afficher le contenu du panier******************
 function displayCart() {
   cart.forEach((element) => {
@@ -55,9 +58,12 @@ function totalPrice() {
 
 // ********changer la quantité*************************
 function changQuantity(quantity) {
-  document.getElementsByClassName("itemQuantity").addEventListener("input", function (e) {
-    let quantity = document.getElementsByClassName("itemQuantity").innerText;
-    console.log(quantity);
-  });
+  let quantityChanged;
+  document.getElementsByClassName("itemQuantity").quantity.addEventListener('input', (e) => {
+    quantityChanged = e.target.value;
+    product.quantity = quantityChanged;
+  })
+
+  console.log(quantity);
 }
 
