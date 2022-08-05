@@ -63,7 +63,23 @@ function changQuantity(quantity) {
     quantityChanged = e.target.value;
     product.quantity = quantityChanged;
   })
-
+  document.getElementById("totalQuantity").textContent = quantityChanged;
   console.log(quantity);
+  totalPrice();
 }
 
+
+
+// ************formulaire*****************
+let cart__order__form = document.getElementsByClassName("cart__order__form");
+console.log(cart__order__form);
+
+let client = {};
+client.firstName = document.querySelector("#firstName").textContent;
+client.lastName = document.querySelector("#lastName").textContent;
+client.address = document.querySelector("#address").textContent;
+client.city = document.querySelector("#city").textContent;
+client.email = document.querySelector("#email").textContent;
+console.log(client);
+localStorage.client = JSON.stringify(client);
+console.log(cart__order__form[0]);
