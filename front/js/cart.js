@@ -73,7 +73,22 @@ function changQuantity(e) {
   totalPrice();
 }
 
+// **********supprimer un produit****************
 
+function supprElement(e) {
+  var id = e.target.closest("[data-id]").getAttribute("data-id");
+  var color = e.target.closest("[data-color]").getAttribute("data-color");
+  cart.forEach((element, index) => {
+    if (id == element.id && color == element.colors) {
+      i = index;
+    }
+  });
+  if (i != -1) {
+    cart.splice(i, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+  displayCart();
+}
 
 // ************formulaire*****************
 let cart__order__form = document.getElementsByClassName("cart__order__form");
