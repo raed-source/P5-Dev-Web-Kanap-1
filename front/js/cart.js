@@ -49,22 +49,27 @@ function totalPrice() {
   var price = 0;
   var quantity = 0;
   cart.forEach((element) => {
-    price += (element.price * element.quantity);
-    quantity += element.quantity;
+    price += parseInt(element.price) * parseInt(element.quantity);
+    quantity += parseInt(element.quantity);
   });
   document.getElementById("totalPrice").innerText = price;
   document.getElementById("totalQuantity").innerText = quantity;
 }
 
+
 // ********changer la quantité*************************
-function changQuantity(quantity) {
-  let quantityChanged;
-  document.getElementsByClassName("itemQuantity").quantity.addEventListener('input', (e) => {
-    quantityChanged = e.target.value;
-    product.quantity = quantityChanged;
-  })
-  document.getElementById("totalQuantity").textContent = quantityChanged;
-  console.log(quantity);
+function changQuantity(e) {
+  var id = e.target.closest("[data-id]").getAttribute("data-id");
+  var color = e.target.closest("[data-color]").getAttribute("data-color");
+  cart.forEach((element, index) => {
+    if (id == element.id && color == element.colors) {
+      i = index;
+    }
+  });
+  if (i != -1) {
+    cart[i].quantity = parseInt(e.target.value);
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
   totalPrice();
 }
 

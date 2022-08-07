@@ -1,7 +1,11 @@
 //*******fetch pour recuperer les produits **************/
-var idproduct = window.location.search.replace('?id=', '');
+var idproduct = window.location.search.replace("?id=", "");
 var product;
 var cart = [];
+var panier = JSON.parse(localStorage.getItem("cart"));
+if (panier != null) {
+    cart = panier;
+}
 fetch("http://localhost:3000/api/products/" + idproduct)
     .then((res) => {
         if (res.ok) {
@@ -11,24 +15,30 @@ fetch("http://localhost:3000/api/products/" + idproduct)
     .then(function (value) {
         // console.log(value);
         product = value;
-        document.getElementsByClassName("item__img")[0].innerHTML = `<img src=${value.imageUrl}>`;
+        document.getElementsByClassName(
+            "item__img"
+        )[0].innerHTML = `<img src=${value.imageUrl}>`;
         document.getElementById("price").textContent = value.price;
         document.getElementById("title").textContent = value.name;
         document.getElementById("description").textContent = value.description;
 
-        value.colors.forEach(element => {
-            document.getElementById("colors").innerHTML += `<option value="${element}">${element}</option>`;
+        value.colors.forEach((element) => {
+            document.getElementById(
+                "colors"
+            ).innerHTML += `<option value="${element}">${element}</option>`;
         });
     })
     .catch(function (err) {
-        console.log('erreur est survenue', err);
+        console.log("erreur est survenue", err);
     });
 
 // *******Ajouter les produit au panier*************
 const btn = document.getElementById("addToCart");
 btn.addEventListener("click", function (e) {
-    if (document.getElementById("colors").value != "" && document.getElementById("quantity").value > 0) {
-
+    if (
+        document.getElementById("colors").value != "" &&
+        document.getElementById("quantity").value > 0
+    ) {
         var productToCart = {
             id: idproduct,
             name: product.name,
@@ -36,11 +46,11 @@ btn.addEventListener("click", function (e) {
             description: product.description,
             colors: document.getElementById("colors").value,
             quantity: document.getElementById("quantity").value,
-            price: product.price
+            price: product.price,
         };
         addProduct(productToCart);
     } else {
-        alert('la couleur ou la quantité ne sont pas choisis');
+        alert("la couleur ou la quantité ne sont pas choisis");
         return;
     }
 });
@@ -54,7 +64,8 @@ function addProduct(product) {
             }
         });
         if (i != -1) {
-            cart[i].quantity = parseInt(cart[i].quantity) + parseInt(product.quantity);
+            cart[i].quantity =
+                parseInt(cart[i].quantity) + parseInt(product.quantity);
         } else {
             cart.push(product);
         }
@@ -62,7 +73,6 @@ function addProduct(product) {
         cart.push(product);
     }
     saveCart(cart);
-
 }
 
 //  ********foction sert à sauvguarder le contenu du panier**********************
