@@ -95,11 +95,19 @@ let cart__order__form = document.getElementsByClassName("cart__order__form");
 console.log(cart__order__form);
 
 let client = {};
-client.firstName = document.querySelector("#firstName").textContent;
-client.lastName = document.querySelector("#lastName").textContent;
-client.address = document.querySelector("#address").textContent;
-client.city = document.querySelector("#city").textContent;
-client.email = document.querySelector("#email").textContent;
+client.firstName = document.querySelector("#firstName");
+client.lastName = document.querySelector("#lastName");
+client.address = document.querySelector("#address");
+client.city = document.querySelector("#city");
+client.email = document.querySelector("#email");
 console.log(client);
 localStorage.client = JSON.stringify(client);
 console.log(cart__order__form[0]);
+
+var inputs = document.querySelectorAll(".cart__order__form input");
+
+[...inputs].forEach((element) =>
+  element.addEventListener("input", (e) => {
+    checkValid(e);
+  })
+);
