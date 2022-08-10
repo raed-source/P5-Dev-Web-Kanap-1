@@ -111,3 +111,11 @@ var inputs = document.querySelectorAll(".cart__order__form input");
     checkValid(e);
   })
 );
+// ---------verifier la validité----------------
+function checkValid(e) {
+  if (!e.target.checkValidity()) {
+    e.target.nextElementSibling.innerHTML = e.target.validationMessage;
+  } else {
+    e.target.nextElementSibling.innerHTML = "";
+  }
+}
