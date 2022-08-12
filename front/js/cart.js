@@ -6,7 +6,6 @@ if (cart == null) {
   document.getElementsByClassName("cart_price")[0].style.display = none;
   document.getElementsByClassName("cart_ordre")[0].style.display = none;
 } else {
-  alert('coucou');
   displayCart();
 }
 // *************l'objet product dt liste de produits dans le panier si mise à jour *******************
