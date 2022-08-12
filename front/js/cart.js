@@ -1,6 +1,6 @@
 // ***************recuperer le contenu du panier et les afficher dans la page*********
 cart = JSON.parse(localStorage.getItem("cart"));
-console.log(cart);
+
 if (cart == null) {
   document.getElementById("cart_items").innerHTML = "votre panier est vide";
   document.getElementsByClassName("cart_price")[0].style.display = none;
@@ -13,12 +13,11 @@ let product = {};
 let chetOutCary = [];
 // *******afficher le contenu du panier******************
 function displayCart() {
+  document.getElementById("cart__items").innerHTML = "";
   cart.forEach((element) => {
     document.getElementById(
       "cart__items"
-    ).innerHTML +=
-
-      `<article class="cart__item" data-id="${element.id}" data-color="${element.colors}">
+    ).innerHTML += `<article class="cart__item" data-id="${element.id}" data-color="${element.colors}">
     <div class="cart__item__img">
       <img src="${element.imageUrl}" alt="${element.altTxt}">
     </div>
@@ -38,8 +37,23 @@ function displayCart() {
         </div>
       </div>
     </div>
-  </article>`
+  </article>`;
   });
+
+  var input = document.getElementsByClassName("itemQuantity");
+  [...input].forEach((element) => {
+    element.addEventListener("input", (e) => {
+      changQuantity(e);
+    });
+  });
+
+  var suppr = document.getElementsByClassName("deleteItem");
+  [...suppr].forEach((element) => {
+    element.addEventListener("click", (e) => {
+      supprElement(e);
+    });
+  });
+
   totalPrice();
 }
 
@@ -54,7 +68,6 @@ function totalPrice() {
   document.getElementById("totalPrice").innerText = price;
   document.getElementById("totalQuantity").innerText = quantity;
 }
-
 
 // ********changer la quantité*************************
 function changQuantity(e) {
@@ -72,8 +85,7 @@ function changQuantity(e) {
   totalPrice();
 }
 
-// **********supprimer un produit****************
-
+//************Supprimer un élément */
 function supprElement(e) {
   var id = e.target.closest("[data-id]").getAttribute("data-id");
   var color = e.target.closest("[data-color]").getAttribute("data-color");
@@ -110,7 +122,7 @@ var inputs = document.querySelectorAll(".cart__order__form input");
     checkValid(e);
   })
 );
-// ---------verifier la validité----------------
+
 function checkValid(e) {
   if (!e.target.checkValidity()) {
     e.target.nextElementSibling.innerHTML = e.target.validationMessage;
