@@ -101,32 +101,84 @@ function supprElement(e) {
   displayCart();
 }
 
+
+
+// ******************les inputs validés dans le formulaire*************
+// ******fonction pour verfier les noms, villes***********
+let acceptedNames = new RegExp('^[a-záàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ]{1,31}$', 'g');
+let acceptedAdresses = new RegExp('[a-z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ]', 'g')
 // ************formulaire*****************
 let cart__order__form = document.getElementsByClassName("cart__order__form");
-console.log(cart__order__form);
-
+// console.log(cart__order__form);
+// *********créer l'objet client nom,penom,adresse,ville....*********************
 let client = {};
-client.firstName = document.querySelector("#firstName");
-client.lastName = document.querySelector("#lastName");
-client.address = document.querySelector("#address");
-client.city = document.querySelector("#city");
-client.email = document.querySelector("#email");
-console.log(client);
+let firstName = document.querySelector("#firstName");
+firstName.classList.add('names');
+let lastName = document.querySelector("#lastName");
+lastName.classList.add('names');
+let address = document.querySelector("#address");
+address.classList.add('adresses');
+let city = document.querySelector("#city");
+city.classList.add('names');
+let email = document.querySelector("#email");
+// ***************sauvgarder dans localstorage***********************
 localStorage.client = JSON.stringify(client);
-console.log(cart__order__form[0]);
+// console.log(cart__order__form[0]);
+
+
+var names = document.querySelectorAll('.names');
+console.log(names);
+names.forEach((name) => {
+  name.addEventListener('input', (e) => {
+    let val = e.target.value;
+    console.log(val);
+    if (acceptedNames.test(val)) {
+      client.firstName = e.firstName;
+      client.lastName = e.lastName;
+      client.city = e.city;
+    } else { }
+  })
+
+})
+
 
 var inputs = document.querySelectorAll(".cart__order__form input");
 
-[...inputs].forEach((element) =>
-  element.addEventListener("input", (e) => {
-    checkValid(e);
-  })
-);
+// [...inputs].forEach((element) =>
+//   element.addEventListener("change", (e) => {
+//     if (e.id = firstName) {
 
-function checkValid(e) {
-  if (!e.target.checkValidity()) {
-    e.target.nextElementSibling.innerHTML = e.target.validationMessage;
-  } else {
-    e.target.nextElementSibling.innerHTML = "";
-  }
-}
+//       let val = e.target.value;
+//       console.log(val);
+//       if (acceptedNames.test(val)) {
+//         console.log('good names')
+//       }
+//     }
+
+//   })
+// );
+
+// function checkValid(e) {
+//   if (!e.target.checkValidity()) {
+//     e.target.nextElementSibling.innerHTML = e.target.validationMessage;
+//     console.log(e.target.validationMessage);
+//   } else {
+//     e.target.nextElementSibling.innerHTML = "";
+//   }
+// }
+
+
+
+// if (acceptedAdresses.test())
+
+//   function checkValidNames(names) {
+//     let val = names.target.value;
+//     if (acceptedNames.test(val)) {
+//       client.firstName = firstName.value;
+//       client.lastName = lastName.value;
+//       client.city = city.value;
+//     } else {
+//       names.target.nextElementSibling.innerHTML = names.target.validationMessage;
+
+//     }
+//   }
