@@ -105,80 +105,113 @@ function supprElement(e) {
 
 // ******************les inputs validés dans le formulaire*************
 // ******fonction pour verfier les noms, villes***********
-let acceptedNames = new RegExp('^[a-záàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ]{1,31}$', 'g');
-let acceptedAdresses = new RegExp('[a-z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ]', 'g')
-// ************formulaire*****************
+let acceptedNames = new RegExp('[a-zA-Záàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ]{1,31}$', 'g');
+let acceptedAdresses = new RegExp('[a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœ]{1,40}$', 'g');
+let acceptedEmail = new RegExp('[a-zA-Z0-9]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
+
+
+// ************formulaire*****************variable necessaires pour valider *******************
 let cart__order__form = document.getElementsByClassName("cart__order__form");
-// console.log(cart__order__form);
-// *********créer l'objet client nom,penom,adresse,ville....*********************
+var inputs = document.querySelectorAll(".cart__order__form input");
+console.log(inputs);
 let client = {};
+localStorage.client = JSON.stringify(client);
+
 let firstName = document.querySelector("#firstName");
 firstName.classList.add('names');
 let lastName = document.querySelector("#lastName");
 lastName.classList.add('names');
-let address = document.querySelector("#address");
-address.classList.add('adresses');
 let city = document.querySelector("#city");
 city.classList.add('names');
-let email = document.querySelector("#email");
-// ***************sauvgarder dans localstorage***********************
-localStorage.client = JSON.stringify(client);
-// console.log(cart__order__form[0]);
-
-
 var names = document.querySelectorAll('.names');
+
+let address = document.querySelector("#address");
+let email = document.querySelector('#email')
+email.setAttribute("type", "text");
+
+// ************valider nom prenom et ville***************
 console.log(names);
-names.forEach((name) => {
-  name.addEventListener('input', (e) => {
+names.forEach((names) =>
+  names.addEventListener("change", (e) => {
     let val = e.target.value;
-    console.log(val);
-    if (acceptedNames.test(val)) {
-      client.firstName = e.firstName;
-      client.lastName = e.lastName;
-      client.city = e.city;
-    } else { }
-  })
+    let nextToName = names.nextElementSibling;
+    if (!acceptedNames.test(val)) {
+      nextToName.innerHTML = "entrez un nom valide";
+    } else {
+      nextToName.innerHTML = "";
+      client.firstName = firstName.value;
+      client.lastName = lastName.value;
+      client.city = city.value;
+      nextToName.innerHTML = "fait";
+    }
+    localStorage.client = JSON.stringify(client);
 
-})
+  }));
+//********valider l'adresse**************** */
+address.addEventListener("change", (e) => {
+  let val = e.target.value;
+  let nextToAdress = address.nextElementSibling;
+  if (!acceptedAdresses.test(val)) {
+    nextToAdress.innerHTML = "entrez une adresse valide";
+  } else {
+    nextToAdress.innerHTML = "";
+    client.address = address.value;
+    //  console.log(address.value);
+    nextToAdress.innerHTML = "fait";
+  }
+  localStorage.client = JSON.stringify(client);
+});
+
+//*************************** */ valider l'adresse mail***************
+email.addEventListener("change", (e) => {
+  let val = e.target.value;
+  let nextToEmail = email.nextElementSibling;
+  nextToEmail.innerHTML = "";
+  if (!acceptedEmail.test(val)) {
+    nextToEmail.innerHTML = "entrez un email valide";
+  } else {
+    client.email = email.value;
+    // console.log(email.value);
+    nextToEmail.innerHTML = "fait";
+  }
+  localStorage.client = JSON.stringify(client);
+});
 
 
-var inputs = document.querySelectorAll(".cart__order__form input");
+console.log(client);
+localStorage.client = JSON.stringify(client);
 
-// [...inputs].forEach((element) =>
-//   element.addEventListener("change", (e) => {
-//     if (e.id = firstName) {
-
-//       let val = e.target.value;
-//       console.log(val);
-//       if (acceptedNames.test(val)) {
-//         console.log('good names')
-//       }
-//     }
-
-//   })
-// );
-
-// function checkValid(e) {
-//   if (!e.target.checkValidity()) {
-//     e.target.nextElementSibling.innerHTML = e.target.validationMessage;
-//     console.log(e.target.validationMessage);
-//   } else {
-//     e.target.nextElementSibling.innerHTML = "";
+// *******verification si tous les champs cont renseignés*******************
+// for(let i=0; i<inputs.length;i++){
+//   if(inputs[i]=="")
+//   {
+//     alert('des informations manquantes');
 //   }
 // }
 
+// *********passer la commande....*********************
+document.getElementById("order").addEventListener("click", function (e) {
+  e.preventDefault();
+  order();
+});
 
-
-// if (acceptedAdresses.test())
-
-//   function checkValidNames(names) {
-//     let val = names.target.value;
-//     if (acceptedNames.test(val)) {
-//       client.firstName = firstName.value;
-//       client.lastName = lastName.value;
-//       client.city = city.value;
-//     } else {
-//       names.target.nextElementSibling.innerHTML = names.target.validationMessage;
-
-//     }
-//   }
+function order() {
+  var productToOrder = [];
+  cart.forEach((element) => {
+    if (productToOrder.find((prod) => (prod = element.id)) == undefined) {
+      productToOrder.push(element.id);
+    }
+  });
+  order = {
+    contact: {
+      firstName: document.getElementById("firstName").value,
+      lastName: document.getElementById("lastName").value,
+      address: document.getElementById("address").value,
+      city: document.getElementById("city").value,
+      email: document.getElementById("email").value,
+    },
+    products: productToOrder,
+  };
+  localStorage.setItem("order", JSON.stringify(order));
+  window.location = "./confirmation.html";
+}
