@@ -12,6 +12,7 @@ if (cart == null) {
 let product = {};
 let chetOutCary = [];
 // *******afficher le contenu du panier******************
+
 function displayCart() {
   document.getElementById("cart__items").innerHTML = "";
   cart.forEach((element) => {
