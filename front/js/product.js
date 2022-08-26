@@ -1,8 +1,8 @@
 //*******fetch pour recuperer les produits **************/
-var idproduct = window.location.search.replace("?id=", "");
-var product;
-var cart = [];
-var panier = JSON.parse(localStorage.getItem("cart"));
+let idproduct = window.location.search.replace("?id=", "");
+let product;
+let cart = [];
+let panier = JSON.parse(localStorage.getItem("cart"));
 if (panier != null) {
     cart = panier;
 }
@@ -37,18 +37,19 @@ const btn = document.getElementById("addToCart");
 btn.addEventListener("click", function (e) {
     if (
         document.getElementById("colors").value != "" &&
-        document.getElementById("quantity").value > 0
+        document.getElementById("quantity").value > 0 && document.getElementById("quantity").value < 100
     ) {
-        var productToCart = {
+        const productToCart = {
             id: idproduct,
             name: product.name,
             imageUrl: product.imageUrl,
             description: product.description,
             colors: document.getElementById("colors").value,
             quantity: document.getElementById("quantity").value,
-            price: product.price,
+            price: product.price
         };
         addProduct(productToCart);
+        alert('produit ajouté');
     } else {
         alert("la couleur ou la quantité ne sont pas choisis");
         return;

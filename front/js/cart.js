@@ -41,14 +41,14 @@ function displayCart() {
   </article>`;
   });
 
-  var input = document.getElementsByClassName("itemQuantity");
+  const input = document.getElementsByClassName("itemQuantity");
   [...input].forEach((element) => {
     element.addEventListener("input", (e) => {
       changQuantity(e);
     });
   });
 
-  var suppr = document.getElementsByClassName("deleteItem");
+  const suppr = document.getElementsByClassName("deleteItem");
   [...suppr].forEach((element) => {
     element.addEventListener("click", (e) => {
       supprElement(e);
@@ -60,8 +60,8 @@ function displayCart() {
 
 // **********calculer le prix***************
 function totalPrice() {
-  var price = 0;
-  var quantity = 0;
+  let price = 0;
+  let quantity = 0;
   cart.forEach((element) => {
     price += parseInt(element.price) * parseInt(element.quantity);
     quantity += parseInt(element.quantity);
@@ -72,24 +72,30 @@ function totalPrice() {
 
 // ********changer la quantité*************************
 function changQuantity(e) {
-  var id = e.target.closest("[data-id]").getAttribute("data-id");
-  var color = e.target.closest("[data-color]").getAttribute("data-color");
+  const id = e.target.closest("[data-id]").getAttribute("data-id");
+  const color = e.target.closest("[data-color]").getAttribute("data-color");
   cart.forEach((element, index) => {
     if (id == element.id && color == element.colors) {
       i = index;
     }
   });
   if (i != -1) {
-    cart[i].quantity = parseInt(e.target.value);
-    localStorage.setItem("cart", JSON.stringify(cart));
+    console.log(e.target.value);
+    let qte = parseInt(e.target.value)
+    if (qte > 0 && qte < 100) {
+      cart[i].quantity = qte;
+      localStorage.setItem("cart", JSON.stringify(cart));
+    } else {
+      alert('Saisissez une quantité valide!')
+    }
   }
   totalPrice();
 }
 
 //************Supprimer un élément */
 function supprElement(e) {
-  var id = e.target.closest("[data-id]").getAttribute("data-id");
-  var color = e.target.closest("[data-color]").getAttribute("data-color");
+  const id = e.target.closest("[data-id]").getAttribute("data-id");
+  const color = e.target.closest("[data-color]").getAttribute("data-color");
   cart.forEach((element, index) => {
     if (id == element.id && color == element.colors) {
       i = index;
@@ -113,21 +119,21 @@ let acceptedEmail = new RegExp('[a-zA-Z0-9]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,1
 
 // ************formulaire*****************variable necessaires pour valider *******************
 let cart__order__form = document.getElementsByClassName("cart__order__form");
-var inputs = document.querySelectorAll(".cart__order__form input");
+const inputs = document.querySelectorAll(".cart__order__form input");
 console.log(inputs);
 let client = {};
 localStorage.client = JSON.stringify(client);
 
-let firstName = document.querySelector("#firstName");
+const firstName = document.querySelector("#firstName");
 firstName.classList.add('names');
-let lastName = document.querySelector("#lastName");
+const lastName = document.querySelector("#lastName");
 lastName.classList.add('names');
-let city = document.querySelector("#city");
+const city = document.querySelector("#city");
 city.classList.add('names');
-var names = document.querySelectorAll('.names');
+const names = document.querySelectorAll('.names');
 
-let address = document.querySelector("#address");
-let email = document.querySelector('#email')
+const address = document.querySelector("#address");
+const email = document.querySelector('#email')
 email.setAttribute("type", "text");
 
 // ************valider nom prenom et ville***************
@@ -192,12 +198,18 @@ localStorage.client = JSON.stringify(client);
 
 // *********passer la commande....*********************
 document.getElementById("order").addEventListener("click", function (e) {
+
   e.preventDefault();
-  order();
+  if (firstName.value !== '' && lastName.value !== '' && city.value !== '' && address.value !== '' && email.value !== '') {
+
+    order();
+  } else {
+    alert('tous les champs ne sont pas remplis');
+  }
 });
 
 function order() {
-  var productToOrder = [];
+  let productToOrder = [];
   cart.forEach((element) => {
     if (productToOrder.find((prod) => (prod = element.id)) == undefined) {
       productToOrder.push(element.id);
@@ -214,5 +226,6 @@ function order() {
     products: productToOrder,
   };
   localStorage.setItem("order", JSON.stringify(order));
+  localStorage.removeItem("cart");
   window.location = "./confirmation.html";
 }

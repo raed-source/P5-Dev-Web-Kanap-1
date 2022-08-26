@@ -1,4 +1,4 @@
-var order = JSON.parse(localStorage.getItem("order"));
+let order = JSON.parse(localStorage.getItem("order"));
 
 fetch("http://localhost:3000/api/products/order", {
     method: "POST",
@@ -16,4 +16,5 @@ fetch("http://localhost:3000/api/products/order", {
     })
     .then((value) => {
         document.getElementById("orderId").innerHTML = value.orderId;
+        localStorage.removeItem("order");
     });
