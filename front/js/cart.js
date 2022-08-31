@@ -66,8 +66,8 @@ function totalPrice() {
     price += parseInt(element.price) * parseInt(element.quantity);
     quantity += parseInt(element.quantity);
   });
-  document.getElementById("totalPrice").innerText = price;
-  document.getElementById("totalQuantity").innerText = quantity;
+  document.getElementById("totalPrice").innerHTML = price;
+  document.getElementById("totalQuantity").innerHTML = quantity;
 }
 
 // ********changer la quantité*************************
@@ -149,7 +149,7 @@ names.forEach((names) =>
       client.firstName = firstName.value;
       client.lastName = lastName.value;
       client.city = city.value;
-      nextToName.innerHTML = "fait";
+      // nextToName.innerHTML = "validé";
     }
     localStorage.client = JSON.stringify(client);
 
@@ -164,7 +164,7 @@ address.addEventListener("change", (e) => {
     nextToAdress.innerHTML = "";
     client.address = address.value;
     //  console.log(address.value);
-    nextToAdress.innerHTML = "fait";
+    // nextToAdress.innerHTML = "validé";
   }
   localStorage.client = JSON.stringify(client);
 });
@@ -179,7 +179,7 @@ email.addEventListener("change", (e) => {
   } else {
     client.email = email.value;
     // console.log(email.value);
-    nextToEmail.innerHTML = "fait";
+    // nextToEmail.innerHTML = "validé";
   }
   localStorage.client = JSON.stringify(client);
 });

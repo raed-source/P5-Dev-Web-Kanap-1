@@ -17,10 +17,10 @@ fetch("http://localhost:3000/api/products/" + idproduct)
         product = value;
         document.getElementsByClassName(
             "item__img"
-        )[0].innerHTML = `<img src=${value.imageUrl}>`;
-        document.getElementById("price").textContent = value.price;
-        document.getElementById("title").textContent = value.name;
-        document.getElementById("description").textContent = value.description;
+        )[0].innerHTML = `<img src=${value.imageUrl} alt=${value.altTxt}>`;
+        document.getElementById("price").innerHTML = value.price;
+        document.getElementById("title").innerHTML = value.name;
+        document.getElementById("description").innerHTML = value.description;
 
         value.colors.forEach((element) => {
             document.getElementById(
