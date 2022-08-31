@@ -2,7 +2,7 @@
 cart = JSON.parse(localStorage.getItem("cart"));
 
 if (cart == null) {
-  document.getElementById("cart_items").innerHTML = "votre panier est vide";
+  document.getElementById("cart__items").innerHTML = "votre panier est vide";
   document.getElementsByClassName("cart_price")[0].style.display = none;
   document.getElementsByClassName("cart_ordre")[0].style.display = none;
 } else {
